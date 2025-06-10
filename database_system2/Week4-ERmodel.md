@@ -46,6 +46,17 @@
 
 ![Mutiway Relationships Ex1](./pics/MultiRe.png)
 
+### 共享实体集合
+
+对于buyer属性和saleeperson属性，定义域都是Person集合里面的，可以表示成下面这样
+
+![Mutiway Relationships Ex1](./pics/共享实体集合.jpg)
+
+原版本为
+
+![Mutiway Relationships Ex1](./pics/共享实体集合0.png)
+
+
 ### Subclass
 
 > 比如设想一个情况，我们需要设计一个学生类，比如说我们要设计一个学生信息管理系统，考虑到有本科生和研究生是有些不同但也有些相同，这个时候我们需要定义一个学生类
