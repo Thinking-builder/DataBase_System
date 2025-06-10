@@ -42,6 +42,10 @@
 
 ![many to many](./pics/manytomany.png)
 
++ 圆箭头：有且仅有一个，就是必须有而且只有一个（普通班没讲）
+
+![must have and have one](./pics/圆箭头关系.png)
+
 ### Mutiway Relationships
 
 ![Mutiway Relationships Ex1](./pics/MultiRe.png)
@@ -50,11 +54,20 @@
 
 对于buyer属性和saleeperson属性，定义域都是Person集合里面的，可以表示成下面这样
 
-![Mutiway Relationships Ex1](./pics/共享实体集合.jpg)
+![Shared set](./pics/共享实体集合.jpg)
 
 原版本为
 
-![Mutiway Relationships Ex1](./pics/共享实体集合0.png)
+![unShared set](./pics/共享实体集合0.png)
+
+### 多路联系转换成二路联系
+
+有的数据库不支持多路联系，因此需要将多路联系转换成二路联系。
+
+例子：
+就是把中间关系转换成一个新表，然后用新表各自联系
+![多路联系](./pics/多路联系图.png)
+![多路联系转换成二路联系](./pics/多路联系转二路联系.png)
 
 
 ### Subclass
@@ -71,6 +84,12 @@ $subclass = special case = fewer entities = more properties$
 
 公共信息放在父类表中，特殊信息放在子类表中。
 
+#### 子类的多重继承
+
+数据库中是不允许构建多重继承的，也就是不允许某个字类连isa到两个父类。
+
+但是允许有多重继承的对象存在。比如对象d继承了子类B子类C的属性，同时子类B子类C又继承了父类A的属性。那么此时对象d同时存在在表A、表B和表C中。
+
 ## Constraints
 
 常见的约束：
@@ -78,16 +97,25 @@ $subclass = special case = fewer entities = more properties$
 + $key$：主键约束，主键一般唯一的确定一行数据，**我们需要为每一个实体集合【矩形】指定一个主键**，体现在ER diagram中就是在对应的属性**下方下划线**
   + 一个key上可以包括多个属性
   + 一个实体集合上可以有多个key
+  + 但是一般在ER图中只会标记一个key（主键）
 
 > 考虑到可能有子类-父类的ER图中，我们一般只在父类的属性中标记主键，而不在子类中标记
 
 !!! Tip "Weak Entity Sets"
     **弱实体集合**，使用双线矩形表达，一般是自身集合的主键不足以唯一确定一个实例。
     为了解决这个弱实体集合的问题，我们使用多对一关系中`一`的那一方来支持弱实体集合。是用多对一另一方的主键和自己原来的主键作为自己的新主键。
+    **支持联系**，用来支持弱实体集合的多对一关系，使用双线菱形表达，如下下图。
 
-    ![weakEntitySets](./pics/weakEntity.png)
+![weakEntitySets](./pics/weakEntity.png)
+![弱实体集合](./pics/弱实体集合.png)
 
     上面的图示中，可以看出弱实体集合具有**向后传播性**。
+    
++ $参照完整性$：
+
++ $域约束$：定义了某个属性的取值范围
+
++ $其他特殊约束$：特定要求
 
 ## Design principle
 
@@ -99,7 +127,7 @@ $subclass = special case = fewer entities = more properties$
    1. 多对一、多对多的`多`方的实体集合可以只有一个属性
    2. 不止是某个东西的名字，至少还有一个nonkey attribute
 
-4. Limit the Use of Weak Entity Set
+4. Limit the Use of Weak Entity Set：尽量少使用弱实体集合
 
 **我们首先重点关注冗余的部分**。
 
