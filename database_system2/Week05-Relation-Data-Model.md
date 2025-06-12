@@ -1,6 +1,18 @@
 
 # Relation Data Model
 
+## schema & instance的区别
+### Schema的区别
+关系表的schema就是这个表的结构，包含了表的名称、列名、列的数据类型等信息
+
+数据库的schema就是所有表的schema的集合
+![Schema](./pics/Schema的区别.png)
+### Instance的区别
+关系表的实例就是这个表里的每个元组
+
+数据库的实例就是所有表的实例的集合
+![Instance](./pics/Instance的区别.png)
+
 > 前情提要：
 >
 > Basic Cases
@@ -16,8 +28,8 @@
 
 我们转换ER图到关系`table`需要两步操作：
 
-+ Entity set to Relation
-+ Relationship to Relation
++ Entity set to Relation:先把实体集合转换成表
++ Relationship to Relation:再把关系转换成表，需要包含相邻实体集合的主键，以及关系本身自己带的属性。
 
 ![ERtoRelation](./pics/ERtoRelation.png)
 
@@ -54,7 +66,7 @@
 
 ![way2](./pics/way2.png)
 
-+ 全合并（Null Value Approach）: 合成一张表
++ 全合并（Null Value Approach）: 合成一张表。由于所有信息都在一张表里面，所以效率最高
 
 ![way3](./pics/way3.png)
 
@@ -65,5 +77,7 @@
 
 + 或者值为空
 + 或者等于其所参照的关系中的某个元组的主键值
+
+属性可以同时是外建和主键
 
 **用户定义的完整性**：针对某一具体关系数据库的约束条件。它反映某一具体应用所设计的数据必须满足的语义要求。比如说，某一个列中的数据不能超过100，某一列中的数据必须不能为空...这样的用户自定义的要求
