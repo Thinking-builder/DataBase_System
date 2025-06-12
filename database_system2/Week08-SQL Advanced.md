@@ -99,7 +99,7 @@ WHERE <condition>;
 + 没有聚合函数、DISTINCT、GROUP BY、HAVING、UNION、LIMIT等
 + 没有计算列
 
-注意，如果子查询里面带有where，当开启CHECK OPTION时，不符合where会导致视图更新失败。而没有开启时，照样会修改原表，但是不会在视图结果中出现
+注意，如果子查询里面带有where，当开启**CHECK OPTION**时，不符合where会导致视图更新失败。而没有开启时，照样会修改原表，但是不会在视图结果中出现
 
 # 索引INDEX
 
@@ -114,3 +114,40 @@ ON <table_name> (<column_name>);
 ```SQL
 DROP INDEX <index_name> ON <table_name>;
 ```
+
+# 权限与授权
+
+## 权限
++ SELECT：查询数据
++ INSERT：插入数据
++ UPDATE：更新数据，也可以只更新某个列，对某个列有权限
++ DELETE：删除数据
+
+## 授权
+
+GRANT OPTION
+
+```SQL
+GRANT <privilege(权限列表)> 
+ON <database>.<table_name> 
+TO '<user>'@'<host>'
+WITH GRANT OPTION;
+``` 
+
+## 撤销授权
+```SQL
+REVOKE <privilege(权限列表)>
+ON <database>.<table_name>
+FROM '<user>'@'<host>';
+```
++ CASCADE：如果有其他用户依赖于这个权限，那么会一并撤销
++ RESTRICT：如果有其他用户依赖于这个权限，那么会拒绝撤销
+
+## 授权图
+
+![授权图](./pics/授权图.png)
+
+节点表示：
+* AP代表A用户有P权限
+* AP*代表A用户有P权限以及所有子权限，可以授权给其他用户
+* AP**说明A是P权限的初始所有者
