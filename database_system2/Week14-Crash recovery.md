@@ -51,18 +51,25 @@ $$<T,abort>$$
 
 ## Redo logging
 
-+ 当OutPut的时候，必须先进行$<T_i,commit>$，并且将日志写入磁盘，然后再之行`Output`
++ 当OutPut前，必须先进行$<T_i,commit>$，并且将日志写入磁盘，然后再之行`Output`
   + $<T_i,X,new\_val>$，注意这里保存的是新的值
 
 日志恢复算法：
 
 ![Redo方法](./pics/Redo方法.png)
 
-但是上面的方法的效率比较慢，我们引入$<chck>$ - 就是检查点：
+但是上面的方法的效率比较慢，我们引入$<ckpt>$ - 就是检查点：
+
+ckpt的位置必须为某个commit之后，前面所有事务都必须已经完成
 
 ![checkpoint方法](./pics/checkpoint方法.png)
 
 ## Undo/Redo logging
+
+### undo/redo两种方法的缺点
+
+* undo方法习惯每次修改都要写入磁盘，导致磁盘IO开销大
+* redo方法习惯每次commit之后才全部写入磁盘，导致缓冲区压力大
 
 我们记录的基本数据类型：
 
@@ -72,7 +79,7 @@ $$<T_i,X,v\_old,v\_new>$$
 
 + 常规事务写入
 
-当有OutPut操作时，先写入相关的$<T_i,X,v\_old,v\_new>$，然后再进行磁盘数据的修改。
+当有OutPut操作时，先写入相关的$<T_i,X,v\_old,v\_new>$的log，然后再进行磁盘数据的修改。
 
 事务按照内存中的顺序写入磁盘之后$<T_i,commit>$写入磁盘。但是**注意Output操作在$<T_i,commit>$之前之后都可以。**，即在此方法下不保证出现commit之前的日志操作都完成了写入磁盘。
 
