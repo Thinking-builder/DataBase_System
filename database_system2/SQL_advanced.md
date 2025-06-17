@@ -41,8 +41,8 @@ WHERE name ='Fred';
 视图是从一个或几个基本表导出的虚拟表，可以简化用户查询操作，对数据提供安全保护。
 
 ```SQL
-CREATE VIEW 视图名[（视图列名表）]
-AS [SELECT 语句]
+CREATE VIEW 视图名[（视图列名表）] AS 
+[SELECT 语句]
 [WITH CHECK OPTION]
 ```
 
